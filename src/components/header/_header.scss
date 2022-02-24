@@ -16,6 +16,17 @@
   top: 0;
 
   z-index: 999;
+  a {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: #fff;
+    font-weight: bolder;
+    &:hover {
+      color: #fff;
+      text-decoration: none;
+    }
+  }
   &__menu {
     display: none;
   }
@@ -85,6 +96,9 @@
       display: block;
     }
     &__logo {
+      display: none;
+    }
+    a {
       display: none;
     }
 

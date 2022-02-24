@@ -8,7 +8,7 @@ import moment from "moment";
 import numeral from "numeral";
 import { LazyLoadImage } from "react-lazy-load-image-component";
 import { useHistory } from "react-router-dom";
-const Video = ({ video }) => {
+const Video = ({ video, channelScreen }) => {
   const {
     id,
     snippet: {
@@ -18,6 +18,7 @@ const Video = ({ video }) => {
       publishedAt,
       thumbnails: { medium },
     },
+    contentDetails,
   } = video;
 
   const [views, setViews] = useState(null);
@@ -27,7 +28,9 @@ const Video = ({ video }) => {
   const seconds = moment.duration(duration).asSeconds();
   const _duration = moment.utc(seconds * 1000).format("mm:ss");
 
-  const _videoId = id?.videoId || id;
+  const _videoId = id?.videoId || contentDetails?.videoId || id;
+
+  const history = useHistory();
 
   useEffect(() => {
     const get_video_details = async () => {
@@ -44,8 +47,6 @@ const Video = ({ video }) => {
     };
     get_video_details();
   }, [_videoId]);
-
-  const history = useHistory();
 
   useEffect(() => {
     const get_channel_icon = async () => {
@@ -76,16 +77,17 @@ const Video = ({ video }) => {
       <div className="video__title">{title}</div>
       <div className="video__details">
         <span>
-          <AiFillEye /> {numeral(views).format("0.a")} Views •
-        </span>
-        <span>{moment(publishedAt).fromNow()} </span>
+          <AiFillEye /> {numeral(views).format("0.a")} Views •{" "}
+        </span>{" "}
+        <span> {moment(publishedAt).fromNow()} </span>
       </div>
-      <div className="video__channel">
-        {/* <img src={channelIcon?.url} alt='' /> */}
-        <LazyLoadImage src={channelIcon?.url} effect="blur" />
+      {!channelScreen && (
+        <div className="video__channel">
+          <LazyLoadImage src={channelIcon?.url} effect="blur" />
 
-        <p>{channelTitle}</p>
-      </div>
+          <p>{channelTitle}</p>
+        </div>
+      )}
     </div>
   );
 };

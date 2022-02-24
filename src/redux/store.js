@@ -2,6 +2,7 @@ import { createStore, applyMiddleware, combineReducers } from "redux";
 import thunk from "redux-thunk";
 import { authReducer } from "./reducers/auth.reducer";
 import {
+  channelVideosReducer,
   homeVideosReducer,
   relatedVideoReducer,
   searchedVideosReducer,
@@ -21,6 +22,7 @@ const rootReducer = combineReducers({
   relatedVideos: relatedVideoReducer,
   searchedVideos: searchedVideosReducer,
   subscriptionsChannel: subscriptionsChannelReducer,
+  channelVideos: channelVideosReducer,
 });
 const store = createStore(
   rootReducer,
